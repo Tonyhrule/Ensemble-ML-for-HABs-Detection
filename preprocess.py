@@ -8,6 +8,9 @@ import os
 data_path = 'Dataset.xlsx'
 data = pd.read_excel(data_path)
 
+# Drop rows with missing values in features or target
+data = data.dropna(subset=['Temperature', 'Salinity', 'UVB', 'ChlorophyllaFlor'])
+
 # Select features and target
 X = data[['Temperature', 'Salinity', 'UVB']]
 y = data['ChlorophyllaFlor']
