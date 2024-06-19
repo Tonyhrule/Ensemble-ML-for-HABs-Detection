@@ -26,7 +26,8 @@ X_test_scaled = scaler.transform(X_test)
 # Save the processed data and the scaler
 output_dir = 'output'
 os.makedirs(output_dir, exist_ok=True)
-joblib.dump((X_train_scaled, X_test_scaled, y_train, y_test), os.path.join(output_dir, 'processed_data.pkl'))
+joblib.dump((X_train, X_test, X_train_scaled, X_test_scaled, y_train, y_test), os.path.join(output_dir, 'processed_data.pkl'))
 joblib.dump(scaler, os.path.join(output_dir, 'scaler.pkl'))
 
 print("Preprocessing complete. Data saved to the output folder.")
+

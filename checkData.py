@@ -8,7 +8,7 @@ processed_data_path = os.path.join(output_dir, 'processed_data.pkl')
 scaler_path = os.path.join(output_dir, 'scaler.pkl')
 
 # Load the processed data
-X_train_scaled, X_test_scaled, y_train, y_test = joblib.load(processed_data_path)
+X_train, X_test, X_train_scaled, X_test_scaled, y_train, y_test = joblib.load(processed_data_path)
 
 # Load the scaler
 scaler = joblib.load(scaler_path)
@@ -21,6 +21,8 @@ print(f"y_train shape: {y_train.shape}")
 print(f"y_test shape: {y_test.shape}")
 
 # Print a few examples
+print("\nExample features (first 5 rows of X_train):")
+print(X_train[:5])
 print("\nExample of scaled features (first 5 rows of X_train_scaled):")
 print(X_train_scaled[:5])
 

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 # Load the processed data
 output_dir = 'output'
-X_train_scaled, X_test_scaled, y_train, y_test = joblib.load(os.path.join(output_dir, 'processed_data.pkl'))
+X_train, X_test, X_train_scaled, X_test_scaled, y_train, y_test = joblib.load(os.path.join(output_dir, 'processed_data.pkl'))
 
 # Load the trained models
 models_dir = 'models'
@@ -14,8 +14,8 @@ gb = joblib.load(os.path.join(models_dir, 'gb_model.pkl'))
 nn = joblib.load(os.path.join(models_dir, 'nn_model.pkl'))
 
 # Make predictions with each model
-rf_pred = rf.predict(X_test_scaled)
-gb_pred = gb.predict(X_test_scaled)
+rf_pred = rf.predict(X_test)
+gb_pred = gb.predict(X_test)
 nn_pred = nn.predict(X_test_scaled)
 
 # Ensemble predictions (simple averaging)
@@ -43,3 +43,4 @@ plt.xlabel('Models')
 plt.ylabel('Mean Squared Error')
 plt.title('Model Performance Comparison')
 plt.show()
+

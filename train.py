@@ -6,7 +6,7 @@ import os
 
 # Load the processed data
 output_dir = 'output'
-X_train_scaled, X_test_scaled, y_train, y_test = joblib.load(os.path.join(output_dir, 'processed_data.pkl'))
+X_train, X_test, X_train_scaled, X_test_scaled, y_train, y_test = joblib.load(os.path.join(output_dir, 'processed_data.pkl'))
 
 # Train base models
 rf = RandomForestRegressor(n_estimators=100, random_state=42)
@@ -14,13 +14,13 @@ gb = GradientBoostingRegressor(n_estimators=100, random_state=42)
 nn = MLPRegressor(hidden_layer_sizes=(50, 50), max_iter=500, random_state=42)
 
 # Fit the models
-rf.fit(X_train_scaled, y_train)
-gb.fit(X_train_scaled, y_train)
+rf.fit(X_train, y_train)
+gb.fit(X_train, y_train)
 nn.fit(X_train_scaled, y_train)
 
 # Make predictions
-rf_pred = rf.predict(X_test_scaled)
-gb_pred = gb.predict(X_test_scaled)
+rf_pred = rf.predict(X_test)
+gb_pred = gb.predict(X_test)
 nn_pred = nn.predict(X_test_scaled)
 
 # Ensemble predictions (simple averaging)
@@ -46,3 +46,4 @@ joblib.dump(nn, os.path.join(models_dir, 'nn_model.pkl'))
 joblib.dump(ensemble_pred, os.path.join(models_dir, 'ensemble_pred.pkl'))
 
 print("Training complete. Models saved to the models folder.")
+
