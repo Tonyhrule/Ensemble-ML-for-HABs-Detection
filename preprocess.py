@@ -11,6 +11,12 @@ data = pd.read_excel(data_path)
 # Drop rows with missing values in features or target
 data = data.dropna(subset=['Temperature', 'Salinity', 'UVB', 'ChlorophyllaFlor'])
 
+for i in data['Temperature']:
+    try: 
+        row = data.iloc[[i]].values.tolist()[0]
+    except TypeError:
+        data = data.drop(labels=i, axis=0)
+
 # Select features and target
 X = data[['Temperature', 'Salinity', 'UVB']]
 y = data['ChlorophyllaFlor']
@@ -30,4 +36,3 @@ joblib.dump((X_train, X_test, X_train_scaled, X_test_scaled, y_train, y_test), o
 joblib.dump(scaler, os.path.join(output_dir, 'scaler.pkl'))
 
 print("Preprocessing complete. Data saved to the output folder.")
-

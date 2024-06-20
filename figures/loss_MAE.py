@@ -15,7 +15,7 @@ nn = joblib.load(os.path.join(models_dir, 'nn_model.pkl'))
 
 # Make predictions with each model
 rf_pred = rf.predict(X_test)
-gb_pred = gb.predict(X_test)
+gb_pred = gb.predict(X_test_scaled)
 nn_pred = nn.predict(X_test_scaled)
 
 # Ensemble predictions (simple averaging)
