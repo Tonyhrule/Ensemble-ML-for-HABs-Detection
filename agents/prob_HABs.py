@@ -3,6 +3,10 @@ import autogen
 from autogen.agentchat import UserProxyAgent
 import joblib
 import pandas as pd
+from dotenv import load_dotenv
+from autogen.agentchat import AssistantAgent
+
+load_dotenv()
 
 output_dir = 'output'
 
@@ -34,21 +38,21 @@ def predict_chlorophyll(temperature, salinity, uvb):
 temperature = input('What is the temperature? ')
 salinity = input('What is the salinity level? ')
 uvb = input('What is the uvb level? ')
-chlorophyll_a_fluorescence = predict_chlorophyll(temperature, salinity, uvb)
+chlorophyll_a_corrected = predict_chlorophyll(temperature, salinity, uvb)
 
-config_list = autogen.config_list_from_json(
-    "OAI_CONFIG_LIST",
-    filter_dict={
-        "model": {
-            "gpt-4-1106-preview",
-            "gpt-3.5-turbo",
-            "gpt-35-turbo",
-        }
-    },
-)
+config_list = [{"model": "gpt-4", 
+                "api_key": os.getenv("OPENAI_API_KEY")}]
+
+messages = [
+        {"role": "system", "content": "You are a calculator that finds the probability of Harmful Algal Blooms existing in a lake given a Chlorophyll A Corrected value"},
+        {
+            "role": "user",
+            "content": f"## Chlorophyll A corrected value\n{chlorophyll_a_corrected}",
+        },
+    ]
 
 #1. Create an AssistantAgent instance named "assistant"
-assistant = autogen.AssistantAgent(
+assistant = AssistantAgent(
     name="assistant",
     system_message="You are a helpful assisstant that gives information about the probability of Harmful Algal Blooms in lakes.",
     llm_config={
@@ -69,4 +73,4 @@ userproxyagent = UserProxyAgent(
 problem = "What is the probabilty that Harmful Algal Blooms exist in a lake given a Chlorophyll a Corrected value of {chlorophyll_a_corrected} ?"
 #We call initiate_chat to start the conversation.
 #When setting message=mathproxyagent.message_generator, you need to pass in the problem through the problem parameter.
-userproxyagent.initiate_chat(assistant, message=userproxyagent.message_generator, problem=problem)
+userproxyagent.initiate_chat(assistant, message=userproxyagent.generate_reply(messages=messages), problem=problem)
