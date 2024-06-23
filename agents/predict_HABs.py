@@ -49,7 +49,7 @@ file = Client.files.create(
 
 assistant = Client.beta.assistants.create(
   name="HAB Predictor",
-  description="You are great at predicting the possibility of Harmful Algal Blooms in a lake given the amount of chlorophyll a fluorescence in the lake.",
+  description="You are great at predicting the possibility of Harmful Algal Blooms in a lake given the amount of Chlorophyll a Corrected in the lake.",
   model="gpt-4o",
   tools=[{"type": "code_interpreter"}],
   tool_resources={

@@ -34,8 +34,8 @@ def predict_chlorophyll(temperature, salinity, uvb):
 
 
 """
-print(f"Predicted Chlorophyll a Fluorescence: {chlorophyll_a_fluorescence}")
-print(f"Actual Chlorophyll a Fluorescence: {row[3]}")
+print(f"Predicted Chlorophyll a Corrected: {chlorophyll_a_corrected}")
+print(f"Actual Chlorophyll a Corrected: {row[3]}")
 """
 
 # Example
@@ -43,8 +43,8 @@ error_list = []
 for i in range(len(X_test['Temperature'])):
     row = X_test.iloc[[i]].values.tolist()[0]
     test_row = y_test.iloc[[i]].values.tolist()[0]
-    chlorophyll_a_fluorescence = round(predict_chlorophyll(row[0], row[1], row[2]), 4)
-    percent_error = ((chlorophyll_a_fluorescence - test_row)/test_row) * 100
+    chlorophyll_a_corrected = round(predict_chlorophyll(row[0], row[1], row[2]), 4)
+    percent_error = ((chlorophyll_a_corrected - test_row)/test_row) * 100
     error_list.append(percent_error)
 
 

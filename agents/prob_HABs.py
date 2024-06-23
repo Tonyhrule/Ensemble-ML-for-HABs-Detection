@@ -66,7 +66,7 @@ userproxyagent = UserProxyAgent(
 )
 
 #Given a math problem, we use the mathproxyagent to generate a prompt to be sent to the assistant as the initial message.
-problem = "What is the probabilty that Harmful Algal Blooms exist in a lake given a Chlorophyll A Fluorescence value of {chlorophyll_a_fluorescence} ?"
+problem = "What is the probabilty that Harmful Algal Blooms exist in a lake given a Chlorophyll a Corrected value of {chlorophyll_a_corrected} ?"
 #We call initiate_chat to start the conversation.
 #When setting message=mathproxyagent.message_generator, you need to pass in the problem through the problem parameter.
 userproxyagent.initiate_chat(assistant, message=userproxyagent.message_generator, problem=problem)

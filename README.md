@@ -1,2 +1,2 @@
 # HABs-AI
-Predicting Chlorophyll a Fluorescence
+Early Warning Systems for HABs
