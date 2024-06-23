@@ -11,7 +11,7 @@ X_train, X_test, X_train_scaled, X_test_scaled, y_train, y_test = joblib.load(os
 # Train base models
 rf = RandomForestRegressor(n_estimators=100, random_state=42)
 gb = GradientBoostingRegressor(n_estimators=100, random_state=42)
-nn = MLPRegressor(hidden_layer_sizes=(70, 70), max_iter=500, random_state=42)
+nn = MLPRegressor(hidden_layer_sizes=(200, 200), max_iter=500, random_state=42)
 
 # Fit the models
 rf.fit(X_train, y_train)
