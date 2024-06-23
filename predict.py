@@ -32,11 +32,17 @@ def predict_chlorophyll(temperature, salinity, uvb):
     
     return ensemble_pred[0]
 
-
-"""
-print(f"Predicted Chlorophyll a Corrected: {chlorophyll_a_corrected}")
-print(f"Actual Chlorophyll a Corrected: {row[3]}")
-"""
+def categorize_chlorophyll_a(chlorophyll_a_value):
+    if chlorophyll_a_value < 2:
+        return "Low Risk (0-5% Probability)"
+    elif 2 <= chlorophyll_a_value < 7:
+        return "Moderate Risk (5-25% Probability)"
+    elif 7 <= chlorophyll_a_value < 12:
+        return "High Risk (25-50% Probability)"
+    elif chlorophyll_a_value >= 12:
+        return "Very High Risk (50-100% Probability)"
+    else:
+        return "Invalid Value"
 
 # Example
 error_list = []
@@ -46,12 +52,12 @@ for i in range(len(X_test['Temperature'])):
     chlorophyll_a_corrected = round(predict_chlorophyll(row[0], row[1], row[2]), 4)
     percent_error = ((chlorophyll_a_corrected - test_row)/test_row) * 100
     error_list.append(percent_error)
+    
+    # Get risk category
+    risk_category = categorize_chlorophyll_a(chlorophyll_a_corrected)
+    print(f"Predicted Chlorophyll a Corrected: {chlorophyll_a_corrected} µg/L - {risk_category}")
 
-
-
-X = len(error_list)
-Y = error_list
-
+# Plotting percent error
 plt.figure(figsize=(10, 6))        # Set the figure size
 plt.plot(range(len(error_list)), error_list, marker=None)  # Plot the error_list values
 plt.xlabel('Trial')                # Label for the x-axis

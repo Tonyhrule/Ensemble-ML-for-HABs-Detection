@@ -1,1 +1,5 @@
 OAI_CONFIG_LIST
+/models/
+/output/
+__pycache__/
+
