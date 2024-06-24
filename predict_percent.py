@@ -65,9 +65,9 @@ for i in range(len(X_test)):
         percent_error = ((chlorophyll_a_corrected - test_row) / test_row) * 100
         error_list.append(percent_error)
 
-        # Get risk category
-        risk_category = categorize_chlorophyll_a(chlorophyll_a_corrected)
-        print(f"Predicted Chlorophyll a Corrected: {chlorophyll_a_corrected} µg/L - {risk_category}")
+        # Print percent error
+        print(f"Percent Error for row {i}: {percent_error:.2f}%")
+        
     except Exception as e:
         logging.error(f"Error predicting for row {i}: {e}")
 
