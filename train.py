@@ -46,4 +46,3 @@ joblib.dump(nn, os.path.join(models_dir, 'nn_model.pkl'))
 joblib.dump(ensemble_pred, os.path.join(models_dir, 'ensemble_pred.pkl'))
 
 print("Training complete. Models saved to the models folder.")
-

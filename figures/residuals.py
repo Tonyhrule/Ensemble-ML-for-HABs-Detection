@@ -1,6 +1,7 @@
 import joblib
 import os
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 
 # Load the processed data
 output_dir = 'output'
@@ -12,10 +13,15 @@ rf = joblib.load(os.path.join(models_dir, 'rf_model.pkl'))
 gb = joblib.load(os.path.join(models_dir, 'gb_model.pkl'))
 nn = joblib.load(os.path.join(models_dir, 'nn_model.pkl'))
 
+poly = PolynomialFeatures(degree=2, interaction_only=False, include_bias=False)
 # Make predictions with each model
-rf_pred = rf.predict(X_test)
-gb_pred = gb.predict(X_test_scaled)
-nn_pred = nn.predict(X_test_scaled)
+X_train_poly = poly.fit_transform(X_train_scaled)
+X_test_poly = poly.transform(X_test_scaled)
+X_test_unscaled = poly.transform(X_test)
+
+rf_pred = rf.predict(X_test_unscaled)
+gb_pred = gb.predict(X_test_poly)
+nn_pred = nn.predict(X_test_poly)
 
 # Ensemble predictions (simple averaging)
 ensemble_pred = (rf_pred + gb_pred + nn_pred) / 3

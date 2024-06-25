@@ -65,6 +65,8 @@ def main():
     poly = PolynomialFeatures(degree=2, interaction_only=False, include_bias=False)
     X_train_poly = poly.fit_transform(X_train_scaled)
     X_test_poly = poly.transform(X_test_scaled)
+    X_train_poly_unscaled = poly.fit_transform(X_train_scaled)
+    X_test_poly_unscaled = poly.transform(X_test_scaled)
 
     # Hyperparameter Tuning for Random Forest
     rf = RandomForestRegressor(random_state=42)
@@ -75,7 +77,7 @@ def main():
         'min_samples_split': [2, 5, 10],
         'min_samples_leaf': [1, 2, 4]
     }
-    rf_best = hyperparameter_tuning(rf, param_grid_rf, X_train_poly, y_train, random_search=True)
+    rf_best = hyperparameter_tuning(rf, param_grid_rf, X_train_poly_unscaled, y_train, random_search=True)
     save_model(rf_best, 'rf', models_dir)
 
     # Hyperparameter Tuning for Gradient Boosting
