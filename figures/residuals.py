@@ -1,7 +1,7 @@
 import joblib
 import os
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import StandardScaler, PolynomialFeatures
+from sklearn.preprocessing import PolynomialFeatures
 
 # Load the processed data
 output_dir = 'output'
@@ -13,13 +13,13 @@ rf = joblib.load(os.path.join(models_dir, 'rf_model.pkl'))
 gb = joblib.load(os.path.join(models_dir, 'gb_model.pkl'))
 nn = joblib.load(os.path.join(models_dir, 'nn_model.pkl'))
 
+# Recreate the polynomial features transformer and transform the test data
 poly = PolynomialFeatures(degree=2, interaction_only=False, include_bias=False)
-# Make predictions with each model
 X_train_poly = poly.fit_transform(X_train_scaled)
 X_test_poly = poly.transform(X_test_scaled)
-X_test_unscaled = poly.transform(X_test)
 
-rf_pred = rf.predict(X_test_unscaled)
+# Make predictions with each model
+rf_pred = rf.predict(X_test_poly)
 gb_pred = gb.predict(X_test_poly)
 nn_pred = nn.predict(X_test_poly)
 
@@ -27,11 +27,11 @@ nn_pred = nn.predict(X_test_poly)
 ensemble_pred = (rf_pred + gb_pred + nn_pred) / 3
 
 # Plotting the residuals
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(14, 10))
 
 # Random Forest residuals
 plt.subplot(2, 2, 1)
-plt.scatter(y_test, y_test - rf_pred, color='blue')
+plt.scatter(y_test, y_test - rf_pred, color='blue', s=10, alpha=0.7)
 plt.axhline(y=0, color='black', linestyle='--')
 plt.xlabel('Actual')
 plt.ylabel('Residuals')
@@ -39,7 +39,7 @@ plt.title('Random Forest Residuals')
 
 # Gradient Boosting residuals
 plt.subplot(2, 2, 2)
-plt.scatter(y_test, y_test - gb_pred, color='green')
+plt.scatter(y_test, y_test - gb_pred, color='green', s=10, alpha=0.7)
 plt.axhline(y=0, color='black', linestyle='--')
 plt.xlabel('Actual')
 plt.ylabel('Residuals')
@@ -47,7 +47,7 @@ plt.title('Gradient Boosting Residuals')
 
 # Neural Network residuals
 plt.subplot(2, 2, 3)
-plt.scatter(y_test, y_test - nn_pred, color='red')
+plt.scatter(y_test, y_test - nn_pred, color='red', s=10, alpha=0.7)
 plt.axhline(y=0, color='black', linestyle='--')
 plt.xlabel('Actual')
 plt.ylabel('Residuals')
@@ -55,7 +55,7 @@ plt.title('Neural Network Residuals')
 
 # Ensemble residuals
 plt.subplot(2, 2, 4)
-plt.scatter(y_test, y_test - ensemble_pred, color='purple')
+plt.scatter(y_test, y_test - ensemble_pred, color='purple', s=10, alpha=0.7)
 plt.axhline(y=0, color='black', linestyle='--')
 plt.xlabel('Actual')
 plt.ylabel('Residuals')

@@ -15,6 +15,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def load_data(output_dir):
+    logging.info(f"Loading data from {output_dir}")
     return joblib.load(os.path.join(output_dir, 'processed_data.pkl'))
 
 def save_model(model, model_name, models_dir):
@@ -22,11 +23,13 @@ def save_model(model, model_name, models_dir):
     logging.info(f'{model_name} model saved.')
 
 def hyperparameter_tuning(model, param_grid, X_train, y_train, random_search=False):
+    logging.info(f"Starting hyperparameter tuning for {model.__class__.__name__}")
     if random_search:
         search = RandomizedSearchCV(estimator=model, param_distributions=param_grid, cv=5, n_jobs=-1, verbose=2, random_state=42)
     else:
         search = GridSearchCV(estimator=model, param_grid=param_grid, cv=5, n_jobs=-1, verbose=2)
     search.fit(X_train, y_train)
+    logging.info(f"Best parameters for {model.__class__.__name__}: {search.best_params_}")
     return search.best_estimator_
 
 def plot_cv_results(cv_results, model_names):
@@ -65,8 +68,6 @@ def main():
     poly = PolynomialFeatures(degree=2, interaction_only=False, include_bias=False)
     X_train_poly = poly.fit_transform(X_train_scaled)
     X_test_poly = poly.transform(X_test_scaled)
-    X_train_poly_unscaled = poly.fit_transform(X_train_scaled)
-    X_test_poly_unscaled = poly.transform(X_test_scaled)
 
     # Hyperparameter Tuning for Random Forest
     rf = RandomForestRegressor(random_state=42)
@@ -77,7 +78,7 @@ def main():
         'min_samples_split': [2, 5, 10],
         'min_samples_leaf': [1, 2, 4]
     }
-    rf_best = hyperparameter_tuning(rf, param_grid_rf, X_train_poly_unscaled, y_train, random_search=True)
+    rf_best = hyperparameter_tuning(rf, param_grid_rf, X_train_poly, y_train, random_search=True)
     save_model(rf_best, 'rf', models_dir)
 
     # Hyperparameter Tuning for Gradient Boosting

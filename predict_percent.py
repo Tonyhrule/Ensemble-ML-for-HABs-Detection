@@ -22,6 +22,7 @@ nn_best = joblib.load(os.path.join(models_dir, 'nn_model.pkl'))
 
 # Recreate the polynomial features transformer with the same degree as used in training
 poly = PolynomialFeatures(degree=2, interaction_only=False, include_bias=False)
+poly.fit(X_train_scaled)  # Fit the transformer to the training data
 
 def predict_chlorophyll(temperature, salinity, uvb):
     # Create a DataFrame for the input features to include feature names
@@ -31,7 +32,7 @@ def predict_chlorophyll(temperature, salinity, uvb):
     features_scaled = scaler.transform(features)
     
     # Apply polynomial transformation
-    features_poly = poly.fit_transform(features_scaled)
+    features_poly = poly.transform(features_scaled)
     
     # Make predictions with each model
     rf_pred = rf_best.predict(features_poly)
@@ -59,10 +60,10 @@ def categorize_chlorophyll_a(chlorophyll_a_value):
 error_list = []
 for i in range(len(X_test)):
     row = X_test.iloc[i]
-    test_row = y_test.iloc[i]
+    actual_value = y_test.iloc[i]
     try:
         chlorophyll_a_corrected = round(predict_chlorophyll(row['Temperature'], row['Salinity'], row['UVB']), 4)
-        percent_error = ((chlorophyll_a_corrected - test_row) / test_row) * 100
+        percent_error = abs((chlorophyll_a_corrected - actual_value) / actual_value) * 100
         error_list.append(percent_error)
 
         # Print percent error
@@ -71,12 +72,18 @@ for i in range(len(X_test)):
     except Exception as e:
         logging.error(f"Error predicting for row {i}: {e}")
 
+# Calculate average percent error
+average_error = np.mean(error_list)
+
 # Plotting percent error
 plt.figure(figsize=(10, 6))
-plt.plot(range(len(error_list)), error_list, marker='o', markersize=3, alpha=0.7)
+plt.scatter(range(len(error_list)), error_list, marker='o', s=30, alpha=0.7)
+plt.axhline(y=average_error, color='r', linestyle='--', label=f'Average Error: {average_error:.2f}%')
 plt.xlabel('Trial')
 plt.ylabel('Percent Error')
 plt.title('Model Percent Error over each Trial')
-plt.ylim(-50, 100)  # Set y-axis limits to focus on main range
+plt.ylim(0, 100)  # Set y-axis limits from 0 to 100%
+plt.xlim(0, len(error_list) - 1)  # Set x-axis limits to fit the data tightly
+plt.legend()
 plt.grid(True)
 plt.show()
