@@ -3,6 +3,7 @@ import os
 import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_score, RepeatedKFold
 from sklearn.preprocessing import PolynomialFeatures
+import numpy as np
 
 # Load the data
 output_dir = 'output'
@@ -19,6 +20,7 @@ stacker_best = joblib.load(os.path.join(models_dir, 'stacker_model.pkl'))
 # Recreate the polynomial features transformer with the same degree as used in training
 poly = PolynomialFeatures(degree=2, interaction_only=False, include_bias=False)
 X_train_poly = poly.fit_transform(X_train_scaled)
+X_test_poly = poly.transform(X_test_scaled)
 
 def plot_cv_results(cv_results, model_names):
     plt.figure(figsize=(10, 6))

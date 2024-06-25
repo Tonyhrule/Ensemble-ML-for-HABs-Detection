@@ -31,7 +31,7 @@ python epoch_training.py
 To evaluate the model loss, run:
 
 ```eval
-python loss_MAE.py
+python loss_RMSE.py
 ```
 
 To evaluate the model's residuals, run:

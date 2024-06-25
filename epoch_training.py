@@ -15,6 +15,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def load_data(output_dir):
+    logging.info(f"Loading data from {output_dir}")
     return joblib.load(os.path.join(output_dir, 'processed_data.pkl'))
 
 def save_model(model, model_name, models_dir):
@@ -22,11 +23,13 @@ def save_model(model, model_name, models_dir):
     logging.info(f'{model_name} model saved.')
 
 def hyperparameter_tuning(model, param_grid, X_train, y_train, random_search=False):
+    logging.info(f"Starting hyperparameter tuning for {model.__class__.__name__}")
     if random_search:
         search = RandomizedSearchCV(estimator=model, param_distributions=param_grid, cv=5, n_jobs=-1, verbose=2, random_state=42)
     else:
         search = GridSearchCV(estimator=model, param_grid=param_grid, cv=5, n_jobs=-1, verbose=2)
     search.fit(X_train, y_train)
+    logging.info(f"Best parameters for {model.__class__.__name__}: {search.best_params_}")
     return search.best_estimator_
 
 def plot_cv_results(cv_results, model_names):

@@ -20,8 +20,12 @@ rf = joblib.load(os.path.join(models_dir, 'rf_model.pkl'))
 gb = joblib.load(os.path.join(models_dir, 'gb_model.pkl'))
 nn = joblib.load(os.path.join(models_dir, 'nn_model.pkl'))
 
+# Load the processed data to fit the polynomial features
+X_train, X_test, X_train_scaled, X_test_scaled, y_train, y_test = joblib.load(os.path.join(output_dir, 'processed_data.pkl'))
+
 # Recreate the polynomial features transformer with the same degree as used in training
 poly = PolynomialFeatures(degree=2, interaction_only=False, include_bias=False)
+poly.fit(X_train_scaled)
 
 def predict_chlorophyll(temperature, salinity, uvb):
     # Create a DataFrame for the input features to include feature names
@@ -31,7 +35,7 @@ def predict_chlorophyll(temperature, salinity, uvb):
     features_scaled = scaler.transform(features)
     
     # Apply polynomial transformation
-    features_poly = poly.fit_transform(features_scaled)
+    features_poly = poly.transform(features_scaled)
     
     # Make predictions with each model
     rf_pred = rf.predict(features_poly)
@@ -55,6 +59,7 @@ def categorize_chlorophyll_a(chlorophyll_a_value):
     else:
         return "Invalid Value"
 
+# User inputs
 temperature = float(input('What is the temperature? '))
 salinity = float(input('What is the salinity level? '))
 uvb = float(input('What is the uvb level? '))
