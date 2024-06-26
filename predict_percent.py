@@ -75,15 +75,18 @@ for i in range(len(X_test)):
 # Calculate average percent error
 average_error = np.mean(error_list)
 
+# Sort the error list in ascending order
+error_list_sorted = sorted(error_list)
+
 # Plotting percent error
 plt.figure(figsize=(10, 6))
-plt.scatter(range(len(error_list)), error_list, marker='o', s=30, alpha=0.7)
+plt.scatter(range(len(error_list_sorted)), error_list_sorted, marker='o', s=10, alpha=0.7)  # Smaller dots
 plt.axhline(y=average_error, color='r', linestyle='--', label=f'Average Error: {average_error:.2f}%')
-plt.xlabel('Trial')
+plt.xlabel('Sorted Trial Index')  # Updated x-axis label
 plt.ylabel('Percent Error')
-plt.title('Model Percent Error over each Trial')
+plt.title('Model Percent Error in Increasing Order')
 plt.ylim(0, 100)  # Set y-axis limits from 0 to 100%
-plt.xlim(0, len(error_list) - 1)  # Set x-axis limits to fit the data tightly
+plt.xlim(0, len(error_list_sorted) - 1)  # Set x-axis limits to fit the data tightly
 plt.legend()
 plt.grid(True)
 plt.show()
