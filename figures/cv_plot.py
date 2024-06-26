@@ -33,17 +33,18 @@ print("Polynomial features created successfully.")
 
 def plot_cv_results(cv_results, model_names):
     print("Plotting cross-validation results...")
-    fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(14, 10), sharex=True, sharey=True)
+    fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12, 8), sharex=True, sharey=True)
     axes = axes.flatten()
 
     for ax, model_name, results in zip(axes, model_names, cv_results):
         mean_score = np.mean(-results)
-        ax.plot(range(1, len(results) + 1), -results, 'o-', label=f'{model_name}')
-        ax.fill_between(range(1, len(results) + 1), -results - np.std(-results), -results + np.std(-results), alpha=0.2)
-        ax.set_title(f'{model_name} (Mean MSE: {mean_score:.2f})')
-        ax.set_xlabel('Fold')
-        ax.set_ylabel('MSE')
-        ax.legend()
+        ax.plot(range(1, len(results) + 1), -results, 'o-', label=f'{model_name} Fold MSE')
+        ax.axhline(y=mean_score, color='r', linestyle='--', label=f'{model_name} Mean MSE: {mean_score:.3f}')
+        ax.set_title(f'{model_name} (Mean MSE: {mean_score:.3f})', fontsize=12)
+        ax.set_xlabel('Fold', fontsize=10)
+        ax.set_ylabel('MSE', fontsize=10)
+        ax.legend(fontsize=8)
+        ax.tick_params(axis='both', which='major', labelsize=8)
         ax.grid(True)
     
     fig.suptitle('Cross-Validation Results for Different Models', fontsize=16)

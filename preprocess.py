@@ -44,11 +44,11 @@ print("Rows with missing values dropped.")
 # Sample a subset of data prioritizing the highest ChlorophyllaFlor values
 print("Sampling data with highest ChlorophyllaFlor values...")  
 data = data.sort_values(by='ChlorophyllaFlor', ascending=False)
-sample_data = data.head(100)  # Reduce the sample size
+sample_data = data.head(200)  # Reduce the sample size
 
 # Define messages for GPT-4
 messages = [
-    {"role": "system", "content": "You are a data generator that generates additional data rows based on the given dataset. Each row should include 'Temperature', 'Salinity', 'UVB', and 'ChlorophyllaFlor' columns. The temperature should be between 8.25 and 10, the salinity should be between 33 and 35, the UVB should not be greater than 100, and the ChlorophyllaFlor should be between 1.5 and 3. Generate 100 rows."},
+    {"role": "system", "content": "You are a data generator that generates additional data rows based on the given dataset. Each row should include 'Temperature', 'Salinity', 'UVB', and 'ChlorophyllaFlor' columns. The temperature should be between 8.25 and 10, the salinity should be between 33 and 35, the UVB should not be greater than 100, and the ChlorophyllaFlor should be between 1.5 and 2.5. Generate 100 rows."},
     {"role": "user", "content": f"Please generate additional rows similar to the following dataset:\n\n{sample_data.to_csv(index=False)}"}
 ]
 
@@ -56,8 +56,8 @@ messages = [
 model = "gpt-4"
 new_data_list = []
 print("Generating additional data...")
-for i in range(10):  # Adjust the number of batches as needed
-    print(f"Generating batch {i+1}/10...")
+for i in range(3):  # Adjust the number of batches as needed
+    print(f"Generating batch {i+1}/3...")
     response_content = chatgpt_response(messages=messages, model=model)
     if response_content:
         string_data = StringIO(response_content)
