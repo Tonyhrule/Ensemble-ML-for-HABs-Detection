@@ -5,6 +5,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import GridSearchCV, cross_val_score, RepeatedKFold, RandomizedSearchCV
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
+from sklearn.impute import SimpleImputer
 import os
 import numpy as np
 import pandas as pd
@@ -64,6 +65,13 @@ def main():
     
     X_train, X_test, X_train_scaled, X_test_scaled, y_train, y_test = load_data(output_dir)
 
+    # Impute missing values
+    imputer = SimpleImputer(strategy='mean')
+    X_train_scaled = imputer.fit_transform(X_train_scaled)
+    X_test_scaled = imputer.transform(X_test_scaled)
+    y_train = imputer.fit_transform(y_train.values.reshape(-1, 1)).ravel()
+    y_test = imputer.transform(y_test.values.reshape(-1, 1)).ravel()
+
     # Polynomial Features for better feature engineering
     poly = PolynomialFeatures(degree=2, interaction_only=False, include_bias=False)
     X_train_poly = poly.fit_transform(X_train_scaled)
@@ -73,7 +81,7 @@ def main():
     rf = RandomForestRegressor(random_state=42)
     param_grid_rf = {
         'n_estimators': [50, 100, 200, 300],
-        'max_features': ['auto', 'sqrt', 'log2'],
+        'max_features': ['sqrt', 'log2'],
         'max_depth': [None, 10, 20, 30],
         'min_samples_split': [2, 5, 10],
         'min_samples_leaf': [1, 2, 4]
