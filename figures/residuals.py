@@ -52,14 +52,13 @@ for ax, (pred, title, color) in zip(axes.flatten(), residuals):
     rmse = calculate_rmse(y_test, pred)
     ax.scatter(y_test, residuals, color=color, s=10, alpha=0.7, label=f'RMSE: {rmse:.2f}')
     ax.axhline(y=0, color='black', linestyle='--')
-    ax.set_xlabel('Actual')
-    ax.set_ylabel('Residuals')
-    ax.set_title(f'{title} Residuals')
+    ax.set_xlabel('Actual', fontsize=14)
+    ax.set_ylabel('Residuals', fontsize=14)
+    ax.set_title(f'{title} Residuals', fontsize=16)
     ax.grid(True, linestyle='--', alpha=0.7)
-    ax.legend()
-    # Set y-limits symmetrically around 0
-    max_residual = max(abs(residuals))
-    ax.set_ylim(-max_residual, max_residual)
+    ax.legend(fontsize=12)
+    # Set y-limits manually as in the picture
+    ax.set_ylim(-1.5, 1.5)
 
 plt.tight_layout()
 plt.show()

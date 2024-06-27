@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_score, RepeatedKFold
 from sklearn.preprocessing import PolynomialFeatures
 import numpy as np
+from matplotlib.font_manager import FontProperties
 
 # Debug: Start of the script
 print("Starting the script...")
@@ -33,22 +34,38 @@ print("Polynomial features created successfully.")
 
 def plot_cv_results(cv_results, model_names):
     print("Plotting cross-validation results...")
-    fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12, 8), sharex=True, sharey=True)
-    axes = axes.flatten()
+    X = range(1, len(cv_results[0]) + 1)
+    rf_y = [i * -1 for i in cv_results[0]]
+    gb_y = [i * -1 for i in cv_results[1]]
+    nn_y = [i * -1 for i in cv_results[2]]
+    stacker_y = [i * -1 for i in cv_results[3]]
 
-    for ax, model_name, results in zip(axes, model_names, cv_results):
-        mean_score = np.mean(-results)
-        ax.plot(range(1, len(results) + 1), -results, 'o-', label=f'{model_name} Fold MSE')
-        ax.axhline(y=mean_score, color='r', linestyle='--', label=f'{model_name} Mean MSE: {mean_score:.3f}')
-        ax.set_title(f'{model_name} (Mean MSE: {mean_score:.3f})', fontsize=12)
-        ax.set_xlabel('Fold', fontsize=10)
-        ax.set_ylabel('MSE', fontsize=10)
-        ax.legend(fontsize=8)
-        ax.tick_params(axis='both', which='major', labelsize=8)
-        ax.grid(True)
+    rf_mean = np.mean(-cv_results[0])
+    gb_mean = np.mean(-cv_results[1])
+    nn_mean = np.mean(-cv_results[2])
+    stack_mean = np.mean(-cv_results[3])
+
+    plt.plot(X, rf_y, color='blue', linewidth=2, alpha=0.3)
+    plt.axhline(y=np.nanmean(-cv_results[0]), color='blue', linestyle='dashed', label=f'Mean Random Forest MSE: {rf_mean:.3f}')
+
+    plt.plot(X, gb_y, color='green', linewidth=2, alpha=0.3)
+    plt.axhline(y=np.nanmean(-cv_results[1]), color='green', linestyle='dashed', label=f'Mean Gradient Boosting MSE: {gb_mean:.3f}')
+
+    plt.plot(X, nn_y, color='red', linewidth=2, alpha=0.3)
+    plt.axhline(y=np.nanmean(-cv_results[2]), color='red', linestyle='dashed', label=f'Mean Neural Network MSE: {nn_mean:.3f}')
+
+    plt.plot(X, stacker_y, color='purple', linewidth=2, alpha=0.2)
+    plt.axhline(y=np.nanmean(-cv_results[3]), color='purple', linestyle='dashed', label=f'Mean Ensemble MSE: {stack_mean:.3f}')
+
+    plt.xlabel('Fold', fontsize=10)
+    plt.ylabel('MSE', fontsize=10)
+    plt.legend(fontsize=10)
+
+    #plt.tick_params(axis='both', which='major', labelsize=8)
+    plt.grid(True)
     
-    fig.suptitle('Cross-Validation Results for Different Models', fontsize=16)
-    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    plt.title('Cross-Validation Results for Different Models', fontsize=13)
+    #plt.tight_layout(rect=[0, 0.03, 1, 0.95])
     plt.show()
     print("Plotting done.")
 
