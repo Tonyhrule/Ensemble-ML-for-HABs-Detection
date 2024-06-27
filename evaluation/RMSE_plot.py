@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_score, RepeatedKFold
 from sklearn.preprocessing import PolynomialFeatures
 import numpy as np
-from matplotlib.font_manager import FontProperties
 
 # Debug: Start of the script
 print("Starting the script...")
@@ -33,7 +32,7 @@ X_test_poly = poly.transform(X_test_scaled)
 print("Polynomial features created successfully.")
 
 def plot_cv_results(cv_results, model_names):
-    print("Plotting cross-validation results...")
+    print("Plotting cross-validation results (MSE)...")
     X = range(1, len(cv_results[0]) + 1)
     rf_y = [i * -1 for i in cv_results[0]]
     gb_y = [i * -1 for i in cv_results[1]]
@@ -46,26 +45,59 @@ def plot_cv_results(cv_results, model_names):
     stack_mean = np.mean(-cv_results[3])
 
     plt.plot(X, rf_y, color='blue', linewidth=2, alpha=0.3)
-    plt.axhline(y=np.nanmean(-cv_results[0]), color='blue', linestyle='dashed', label=f'Mean Random Forest MSE: {rf_mean:.3f}')
+    plt.axhline(y=rf_mean, color='blue', linestyle='dashed', label=f'Mean Random Forest MSE: {rf_mean:.3f}')
 
     plt.plot(X, gb_y, color='green', linewidth=2, alpha=0.3)
-    plt.axhline(y=np.nanmean(-cv_results[1]), color='green', linestyle='dashed', label=f'Mean Gradient Boosting MSE: {gb_mean:.3f}')
+    plt.axhline(y=gb_mean, color='green', linestyle='dashed', label=f'Mean Gradient Boosting MSE: {gb_mean:.3f}')
 
     plt.plot(X, nn_y, color='red', linewidth=2, alpha=0.3)
-    plt.axhline(y=np.nanmean(-cv_results[2]), color='red', linestyle='dashed', label=f'Mean Neural Network MSE: {nn_mean:.3f}')
+    plt.axhline(y=nn_mean, color='red', linestyle='dashed', label=f'Mean Neural Network MSE: {nn_mean:.3f}')
 
     plt.plot(X, stacker_y, color='purple', linewidth=2, alpha=0.2)
-    plt.axhline(y=np.nanmean(-cv_results[3]), color='purple', linestyle='dashed', label=f'Mean Ensemble MSE: {stack_mean:.3f}')
+    plt.axhline(y=stack_mean, color='purple', linestyle='dashed', label=f'Mean Ensemble MSE: {stack_mean:.3f}')
 
     plt.xlabel('Fold', fontsize=10)
     plt.ylabel('MSE', fontsize=10)
     plt.legend(fontsize=10)
 
-    #plt.tick_params(axis='both', which='major', labelsize=8)
     plt.grid(True)
     
-    plt.title('Cross-Validation Results for Different Models', fontsize=13)
-    #plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    plt.title('Cross-Validation Results for Different Models (MSE)', fontsize=13)
+    plt.show()
+    print("Plotting done.")
+
+def plot_cv_results_rmse(cv_results, model_names):
+    print("Plotting cross-validation results (RMSE)...")
+    X = range(1, len(cv_results[0]) + 1)
+    rf_y = [np.sqrt(i * -1) for i in cv_results[0]]
+    gb_y = [np.sqrt(i * -1) for i in cv_results[1]]
+    nn_y = [np.sqrt(i * -1) for i in cv_results[2]]
+    stacker_y = [np.sqrt(i * -1) for i in cv_results[3]]
+
+    rf_mean = np.mean([np.sqrt(i * -1) for i in cv_results[0]])
+    gb_mean = np.mean([np.sqrt(i * -1) for i in cv_results[1]])
+    nn_mean = np.mean([np.sqrt(i * -1) for i in cv_results[2]])
+    stack_mean = np.mean([np.sqrt(i * -1) for i in cv_results[3]])
+
+    plt.plot(X, rf_y, color='blue', linewidth=2, alpha=0.3)
+    plt.axhline(y=rf_mean, color='blue', linestyle='dashed', label=f'Mean Random Forest RMSE: {rf_mean:.3f}')
+
+    plt.plot(X, gb_y, color='green', linewidth=2, alpha=0.3)
+    plt.axhline(y=gb_mean, color='green', linestyle='dashed', label=f'Mean Gradient Boosting RMSE: {gb_mean:.3f}')
+
+    plt.plot(X, nn_y, color='red', linewidth=2, alpha=0.3)
+    plt.axhline(y=nn_mean, color='red', linestyle='dashed', label=f'Mean Neural Network RMSE: {nn_mean:.3f}')
+
+    plt.plot(X, stacker_y, color='purple', linewidth=2, alpha=0.2)
+    plt.axhline(y=stack_mean, color='purple', linestyle='dashed', label=f'Mean Ensemble RMSE: {stack_mean:.3f}')
+
+    plt.xlabel('Fold', fontsize=10)
+    plt.ylabel('RMSE', fontsize=10)
+    plt.legend(fontsize=10)
+
+    plt.grid(True)
+    
+    plt.title('Cross-Validation Results for Different Models (RMSE)', fontsize=13)
     plt.show()
     print("Plotting done.")
 
@@ -95,4 +127,6 @@ print("Stacked Model CV done.")
 print("Plotting the results...")
 plot_cv_results([cv_results_rf, cv_results_gb, cv_results_nn, cv_results_stacker], 
                 ['Random Forest', 'Gradient Boosting', 'Neural Network', 'Stacked Model'])
+plot_cv_results_rmse([cv_results_rf, cv_results_gb, cv_results_nn, cv_results_stacker], 
+                     ['Random Forest', 'Gradient Boosting', 'Neural Network', 'Stacked Model'])
 print("Script completed.")
