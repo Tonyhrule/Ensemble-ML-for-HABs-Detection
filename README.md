@@ -62,9 +62,25 @@ You can download pre-trained models from the following link:
 
 ## Results
 
+
+
 ## Web-Application Demo
 
 We have developed a simple web application to demonstrate the functionality and use of our model for HAB prediction/detection. You can access it here: [Web-app demo](https://predicthabs.streamlit.app/).
 
 The web application is built using Streamlit. The code for the app is in the following folder: [Streamlit App Code](https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/streamlit_app.py).
 
+## Contributing
+
+We welcome contributions! To contribute:
+
+1. Fork the repository.
+2. Clone your fork: `git clone https://github.com/your-username/Ensemble-ML-for-HABs-Detection.git`
+3. Create a new branch: `git checkout -b feature-or-bugfix-name`
+4. Make your changes and commit: `git commit -m "Description of changes"`
+5. Push to your fork: `git push origin feature-or-bugfix-name`
+6. Open a Pull Request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/LICENSE) file for details.
