@@ -58,17 +58,32 @@ python percent_error.py
 
 You can download pre-trained models from the following link:
 
-- [Google Drink]([link](https://drive.google.com/drive/folders/1Adxt7VVraiiV6TuSErsl2ydmaW2flUJU?usp=sharing))
+- [Google Drink](https://drive.google.com/drive/folders/1Adxt7VVraiiV6TuSErsl2ydmaW2flUJU?usp=sharing)
 
 ## Results
 
+### Percent Error
 
+<img src="https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/figures/Model_Percent_Error.png" alt="Model Percent Error" width="400">
+[Percent Error Code](https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/evaluation/percent_error.py)
+
+### Residuals
+
+<img src="https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/figures/Residuals.png" alt="Residuals" width="400">
+[Residuals Code](https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/evaluation/residuals.py)
+
+### RMSE Cross Validation
+
+<img src="https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/figures/CV_RMSE.png" alt="CV RMSE" width="400">
+[RMSE Cross Validation Code](https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/evaluation/loss_RMSE.py)
 
 ## Web-Application Demo
 
 We have developed a simple web application to demonstrate the functionality and use of our model for HAB prediction/detection. You can access it here: [Web-app demo](https://predicthabs.streamlit.app/).
 
 The web application is built using Streamlit. The code for the app is in the following folder: [Streamlit App Code](https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/streamlit_app.py).
+
+![Web App Screenshot](https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/figures/Demo_App.png)
 
 ## Contributing
 
