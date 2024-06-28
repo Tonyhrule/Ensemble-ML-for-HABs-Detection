@@ -58,23 +58,23 @@ python percent_error.py
 
 You can download pre-trained models from the following link:
 
-- [Google Drink](https://drive.google.com/drive/folders/1Adxt7VVraiiV6TuSErsl2ydmaW2flUJU?usp=sharing)
+- [Google Drive](https://drive.google.com/drive/folders/1Adxt7VVraiiV6TuSErsl2ydmaW2flUJU?usp=sharing)
 
 ## Results
 
 ### Percent Error
 
-<img src="https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/figures/Model_Percent_Error.png" alt="Model Percent Error" width="400">
+<img src="https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/figures/Model_Percent_Error.png" alt="Model Percent Error" width="400">  
 [Percent Error Code](https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/evaluation/percent_error.py)
 
 ### Residuals
 
-<img src="https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/figures/Residuals.png" alt="Residuals" width="400">
+<img src="https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/figures/Residuals.png" alt="Residuals" width="400">  
 [Residuals Code](https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/evaluation/residuals.py)
 
 ### RMSE Cross Validation
 
-<img src="https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/figures/CV_RMSE.png" alt="CV RMSE" width="400">
+<img src="https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/figures/CV_RMSE.png" alt="CV RMSE" width="400">  
 [RMSE Cross Validation Code](https://github.com/Tonyhrule/Ensemble-ML-for-HABs-Detection/blob/main/evaluation/loss_RMSE.py)
 
 ## Web-Application Demo
