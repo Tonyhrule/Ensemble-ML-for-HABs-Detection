@@ -18,10 +18,14 @@ print("Data loaded successfully.")
 models_dir = 'models'
 print("Loading scaler and models...")
 scaler = joblib.load(os.path.join(output_dir, 'scaler.pkl'))
-rf_best = joblib.load(os.path.join(models_dir, 'rf_model.pkl'))
-gb_best = joblib.load(os.path.join(models_dir, 'gb_model.pkl'))
-nn_best = joblib.load(os.path.join(models_dir, 'nn_model.pkl'))
-stacker_best = joblib.load(os.path.join(models_dir, 'stacker_model.pkl'))
+
+# List of model filenames
+model_filenames = ['rf_model.pkl', 'gb_model.pkl', 'nn_model.pkl', 'stacker_model.pkl']
+
+# Load models using a loop
+models = [joblib.load(os.path.join(models_dir, filename)) for filename in model_filenames]
+rf_best, gb_best, nn_best, stacker_best = models
+
 print("Scaler and models loaded successfully.")
 
 # Recreate the polynomial features transformer with the same degree as used in training
